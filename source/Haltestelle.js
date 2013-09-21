@@ -5,8 +5,10 @@ enyo.kind({
 
     published: {
         name: "",
+        StationId: 0,
         distance: 0,
-        rbls: null
+        rbls: null,
+        lines: []
     },
 
     components: [
@@ -17,7 +19,8 @@ enyo.kind({
                 {name: "distance", className: "distance"}
             ]},
             {kind: "enyo.BasicDrawer", open: false, components: [
-                {kind: "enyo.Spinner", showing: true}
+                {kind: "enyo.Spinner", showing: true},
+                {name: "lines", className: "lines", showing: false}
             ]}
         ]}
     ],
@@ -28,6 +31,12 @@ enyo.kind({
 
     distanceChanged: function () {
         this.$.distance.setContent(this.distance + "m");
+    },
+
+    linesChanged: function () {
+        this.$.lines.setContent(this.lines.join(" "));
+        this.$.spinner.hide();
+        this.$.lines.show();
     },
 
     toggleOpen: function () {

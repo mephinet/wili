@@ -32,6 +32,7 @@ enyo.kind({
     create: function () {
         this.inherited(arguments);
         this.haltestellen = [];
+        this.rbl_to_index = {};
     },
 
     rendered: function () {
@@ -72,6 +73,16 @@ enyo.kind({
 
     getRealTimeDataSuccess: function (sender, response) {
         this.log(enyo.json.stringify(response));
+
+        enyo.map(response.data.monitors, function (m) {
+            var index = this.rbl_to_index[m.locationStop.properties.attributes.rbl];
+            this.$.list.prepareRow(index);
+            var lines = [];
+            enyo.map(m.lines, function (l) {
+                lines.push(l.name + "/" + l.towards+ ":" + l.departures.departure[0].departureTime.countdown);
+            }, this);
+            this.$.haltestelle.setLines(this.$.haltestelle.lines.concat(lines));
+        }, this);
     },
 
 
@@ -80,9 +91,13 @@ enyo.kind({
     setupRow: function (sender, index) {
         var h = this.haltestellen[index];
         if (h) {
+            enyo.map(h.rbls, function (r) {
+                this.rbl_to_index[r] = index;
+            }, this);
             this.$.haltestelle.setName(h.name);
             this.$.haltestelle.setDistance(h.distance);
             this.$.haltestelle.setRbls(h.rbls);
+            this.$.haltestelle.setStationId(h.id);
             return true;
         }
     },
