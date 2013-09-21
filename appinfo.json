@@ -1,0 +1,28 @@
+{
+    "id": "org.gortan.wili",
+    "uiRevision": "2",
+    "version": "0.0.1",
+    "vendor": "Philipp Gortan",
+    "vendorurl": "http://gortan.org/",
+    "type": "web",
+    "main": "index.html",
+    "icon": "icon.png",
+    "title": "WiLi for WebOS",
+    "copyright": "Copyright 2013, Philipp Gortan",
+    "keywords": [
+        "Wien",
+        "Vienna",
+        "Austria",
+        "Öffis",
+        "Wiener Linien",
+        "public transport",
+        "mobility"
+    ],
+    "support": {
+        "url": "http://wili.gortan.org/",
+        "email": {
+            "subject": "support request",
+            "address": "gortan@gmail.com"
+        }
+    }
+}
