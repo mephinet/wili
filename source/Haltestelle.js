@@ -5,14 +5,20 @@ enyo.kind({
 
     published: {
         name: "",
-        distance: 0
+        distance: 0,
+        rbls: null
     },
 
     components: [
-        {kind: "enyo.HFlexBox", components: [
-            {name: "label", content: "?"},
-            {kind: "enyo.Spacer"},
-            {name: "distance", className: "distance"}
+        {kind: "enyo.VFlexBox", components: [
+            {kind: "enyo.HFlexBox", components: [
+                {name: "label", className: "name"},
+                {kind: "enyo.Spacer"},
+                {name: "distance", className: "distance"}
+            ]},
+            {kind: "enyo.BasicDrawer", open: false, components: [
+                {kind: "enyo.Spinner", showing: true}
+            ]}
         ]}
     ],
 
@@ -22,5 +28,10 @@ enyo.kind({
 
     distanceChanged: function () {
         this.$.distance.setContent(this.distance + "m");
+    },
+
+    toggleOpen: function () {
+        this.$.basicDrawer.toggleOpen();
     }
+
 });
