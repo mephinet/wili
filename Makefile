@@ -22,11 +22,11 @@ coords:
 tail:
 	palm-log ${ID} -f
 
-build: appinfo.json framework_config.json index.html $(wildcard css/*.css) $(wildcard source/*.js)
+build: appinfo.json framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js)
 	mkdir -p build build/css build/source
-	cp -p appinfo.json framework_config.json index.html $@
-	cp -p css/*.css $@/css/
-	cp -p source/*.js $@/source/
+	for f in $?; do \
+	  cp -vp $$f $@/$$f; \
+	done
 
 ${IPK}: build
 	palm-package $<
