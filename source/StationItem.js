@@ -25,25 +25,38 @@ enyo.kind({
     dataChanged: function () {
         var d = this.data;
         this.$.label.setContent(d.getName());
-        this.$.lines.setContent(d.getLines().join(", "));
+        this.$.lines.setContent(this.formatLines(d));
         this.$.distance.setContent(d.getDistance() + "m");
 
         this.$.spinner.setShowing(!d.hasRealtimeData());
         this.$.realtimeData.setShowing(d.hasRealtimeData());
 
-        var s = "";
-        enyo.map(d.getRealtimeData(), function (rd) {
-            var countdown = rd.getCountdown().join(" - ");
-            if (!countdown) {
-                countdown = "?";
-            }
-            s += rd.getLine() + " (" + rd.getTowards() + "): " + countdown + "<br/>";
-        });
-        this.$.realtimeData.setContent(s);
+        this.$.realtimeData.setContent(this.formatRealtimeData(d.getRealtimeData()));
     },
 
     toggleOpen: function () {
         this.$.basicDrawer.toggleOpen();
-    }
+    },
 
+    formatLines: function (d) {
+        var last_type = null;
+        var res = "";
+        enyo.map(d.lines, function (l) {
+            if (l.type != last_type) {
+                res += "[" + l.type + "] ";
+                last_type = l.type;
+            }
+            res += l.name + ", ";
+        });
+        return res;
+    },
+
+    formatRealtimeData: function (rds) {
+        var res = "";
+        enyo.map(rds, function (rd) {
+            var countdown = rd.getCountdown().join(" - ") || "?";
+            res += rd.getLine() + " (" + rd.getTowards() + "): " + countdown + "<br/>";
+        });
+        return res;
+    }
 });

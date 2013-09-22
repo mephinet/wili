@@ -25,7 +25,7 @@ enyo.kind({
     },
 
     hasRealtimeData: function () {
-        return !!this.realtimeDataForLine;
+        return Object.keys(this.realtimeDataForLine).length > 0;
     },
 
     addRealtimeData: function (realtimeData) {
@@ -39,7 +39,7 @@ enyo.kind({
     getRealtimeData: function () {
         var data = [];
         enyo.map(this.lines, function (l) {
-            var d =this.realtimeDataForLine[l]
+            var d =this.realtimeDataForLine[l.name]
             if (d) {
                 data = data.concat(d);
             }
