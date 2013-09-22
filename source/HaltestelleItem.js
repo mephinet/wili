@@ -1,42 +1,31 @@
 enyo.kind({
-    name: "WiLi.Haltestelle",
+    name: "WiLi.HaltestelleItem",
     kind: "enyo.Item",
     className: "enyo-item haltestelle",
 
     published: {
-        name: "",
-        StationId: 0,
-        distance: 0,
-        rbls: null,
-        lines: []
+        data: null
     },
 
     components: [
         {kind: "enyo.VFlexBox", components: [
             {kind: "enyo.HFlexBox", components: [
                 {name: "label", className: "name"},
+                {name: "lines", className: "lines"},
                 {kind: "enyo.Spacer"},
                 {name: "distance", className: "distance"}
             ]},
             {kind: "enyo.BasicDrawer", open: false, components: [
                 {kind: "enyo.Spinner", showing: true},
-                {name: "lines", className: "lines", showing: false}
             ]}
         ]}
     ],
 
-    nameChanged: function () {
-        this.$.label.setContent(this.name);
-    },
-
-    distanceChanged: function () {
-        this.$.distance.setContent(this.distance + "m");
-    },
-
-    linesChanged: function () {
-        this.$.lines.setContent(this.lines.join(" "));
-        this.$.spinner.hide();
-        this.$.lines.show();
+    dataChanged: function () {
+        var d = this.data;
+        this.$.label.setContent(d.name);
+        this.$.lines.setContent(d.linien.join(", "));
+        this.$.distance.setContent(d.distance + "m");
     },
 
     toggleOpen: function () {
