@@ -24,9 +24,10 @@ tail:
 
 build: appinfo.json framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js)
 	mkdir -p build build/css build/source
-	for f in $<; do \
-	  cp -vp $$f $@/$$f; \
+	for f in $^; do \
+	  cp -v $$f $@/$$f; \
 	done
+	touch $@
 
 ${IPK}: build
 	palm-package $<

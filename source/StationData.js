@@ -8,12 +8,12 @@ enyo.kind({
         distance: 0,
         rbls: null,
         lines: null,
-        realtimeData: null
+        realtimeDataForLine: null
     },
 
     create: function () {
         this.inherited(arguments);
-        this.realtimeData = [];
+        this.realtimeDataForLine = {};
     },
 
     fromJson: function (json) {
@@ -25,10 +25,25 @@ enyo.kind({
     },
 
     hasRealtimeData: function () {
-        return !!this.realtimeData;
+        return !!this.realtimeDataForLine;
     },
-    
+
     addRealtimeData: function (realtimeData) {
-        this.realtimeData.push(realtimeData);
+        var l = realtimeData.line;
+        if (!this.realtimeDataForLine[l]) {
+            this.realtimeDataForLine[l] = [];
+        }
+        this.realtimeDataForLine[l].push(realtimeData);
+    },
+
+    getRealtimeData: function () {
+        var data = [];
+        enyo.map(this.lines, function (l) {
+            var d =this.realtimeDataForLine[l]
+            if (d) {
+                data = data.concat(d);
+            }
+        }, this);
+        return data;
     }
 });
