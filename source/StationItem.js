@@ -1,7 +1,7 @@
 enyo.kind({
-    name: "WiLi.HaltestelleItem",
+    name: "WiLi.StationItem",
     kind: "enyo.Item",
-    className: "enyo-item haltestelle",
+    className: "enyo-item wili-station",
 
     published: {
         data: null
@@ -10,10 +10,10 @@ enyo.kind({
     components: [
         {kind: "enyo.VFlexBox", components: [
             {kind: "enyo.HFlexBox", components: [
-                {name: "label", className: "name"},
-                {name: "lines", className: "lines"},
+                {name: "label", className: "station-name"},
+                {name: "lines", className: "station-lines"},
                 {kind: "enyo.Spacer"},
-                {name: "distance", className: "distance"}
+                {name: "distance", className: "station-distance"}
             ]},
             {kind: "enyo.BasicDrawer", open: false, components: [
                 {kind: "enyo.Spinner", showing: true},
@@ -24,7 +24,7 @@ enyo.kind({
     dataChanged: function () {
         var d = this.data;
         this.$.label.setContent(d.name);
-        this.$.lines.setContent(d.linien.join(", "));
+        this.$.lines.setContent(d.lines.join(", "));
         this.$.distance.setContent(d.distance + "m");
     },
 

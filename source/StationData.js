@@ -1,21 +1,21 @@
 enyo.kind({
-    name: "WiLi.HaltestelleData",
+    name: "WiLi.StationData",
     kind: "enyo.Object",
 
     published: {
-        HaltestelleId: 0,
+        StationId: 0,
         name: "",
         distance: 0,
         rbls: [],
-        linien: [],
+        lines: [],
         realtimeData: false
     },
 
     fromJson: function (json) {
-        this.setHaltestelleId(json.id);
+        this.setStationId(json.id);
         this.setName(json.name);
         this.setDistance(json.distance);
         this.setRbls(json.rbls);
-        this.setLinien(json.linien);
+        this.setLines(json.linien);
     }
 });

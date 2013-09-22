@@ -4,7 +4,7 @@ enyo.kind({
     components: [
         {kind: "enyo.PageHeader", content: $L("WiLi for WebOS")},
         {name: "list", kind: "enyo.VirtualList", onSetupRow: "setupRow", flex: 1, components: [
-            {kind: "WiLi.HaltestelleItem", onclick: "toggleOpen"}
+            {kind: "WiLi.StationItem", onclick: "toggleOpen"}
         ]},
 
         {name: "location", kind: "enyo.PalmService",
@@ -31,7 +31,7 @@ enyo.kind({
 
     create: function () {
         this.inherited(arguments);
-        this.haltestellen = [];
+        this.stations = [];
     },
 
     rendered: function () {
@@ -60,12 +60,12 @@ enyo.kind({
         this.log("GetStations response: " + enyo.json.stringify(response));
         var rbls = [];
         enyo.map(response.haltestellen, function (h) {
-            var d = new WiLi.HaltestelleData();
+            var d = new WiLi.StationData();
             d.fromJson(h);
             enyo.map(h.rbls, function (r) {
                 rbls.push(r);
             });
-            this.haltestellen.push(d);
+            this.stations.push(d);
         }, this);
         this.$.list.refresh();
         this.setScrim(null);
@@ -82,7 +82,7 @@ enyo.kind({
         //     enyo.map(m.lines, function (l) {
         //         lines.push(l.name + "/" + l.towards+ ":" + l.departures.departure[0].departureTime.countdown);
         //     }, this);
-        //     this.$.haltestelle.setLines(this.$.haltestelle.lines.concat(lines));
+        //     this.$.haltestelleItem.setLines(this.$.haltestelle.lines.concat(lines));
         // }, this);
     },
 
@@ -90,9 +90,9 @@ enyo.kind({
     // UI helpers
 
     setupRow: function (sender, index) {
-        var h = this.haltestellen[index];
+        var h = this.stations[index];
         if (h) {
-            this.$.haltestelleItem.setData(h);
+            this.$.stationItem.setData(h);
             return true;
         }
     },
@@ -105,7 +105,7 @@ enyo.kind({
     toggleOpen: function (sender, event) {
         this.log(event.rowIndex);
         this.$.list.prepareRow(event.rowIndex);
-        this.$.haltestelle.toggleOpen();
+        this.$.stationItem.toggleOpen();
     },
 
     // error handling
