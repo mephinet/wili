@@ -1,6 +1,6 @@
 enyo.kind({
     name: "WiLi.RealtimeData",
-    kind: "enyo.Object",
+    kind: "enyo.Component",
 
     published: {
         line: "",

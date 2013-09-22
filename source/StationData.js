@@ -1,6 +1,6 @@
 enyo.kind({
     name: "WiLi.StationData",
-    kind: "enyo.Object",
+    kind: "enyo.Component",
 
     published: {
         StationId: 0,
@@ -9,6 +9,11 @@ enyo.kind({
         rbls: null,
         lines: null,
         realtimeData: null
+    },
+
+    create: function () {
+        this.inherited(arguments);
+        this.realtimeData = [];
     },
 
     fromJson: function (json) {
@@ -24,9 +29,6 @@ enyo.kind({
     },
     
     addRealtimeData: function (realtimeData) {
-        if (!this.realtimeData) {
-                this.realtimeData = [];
-        }
         this.realtimeData.push(realtimeData);
     }
 });
