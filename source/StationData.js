@@ -6,9 +6,9 @@ enyo.kind({
         StationId: 0,
         name: "",
         distance: 0,
-        rbls: [],
-        lines: [],
-        realtimeData: false
+        rbls: null,
+        lines: null,
+        realtimeData: null
     },
 
     fromJson: function (json) {
@@ -17,5 +17,16 @@ enyo.kind({
         this.setDistance(json.distance);
         this.setRbls(json.rbls);
         this.setLines(json.linien);
+    },
+
+    hasRealtimeData: function () {
+        return !!this.realtimeData;
+    },
+    
+    addRealtimeData: function (realtimeData) {
+        if (!this.realtimeData) {
+                this.realtimeData = [];
+        }
+        this.realtimeData.push(realtimeData);
     }
 });

@@ -17,9 +17,9 @@ enyo.kind({
          onSuccess: "getStationsSuccess", onFailure: "getStationsFailure"
         },
 
-        {name: "getRealTimeData", kind: "enyo.WebService",
+        {name: "getRealtimeData", kind: "enyo.WebService",
          url: "http://www.wienerlinien.at/ogd_realtime/monitor",
-         onSuccess: "getRealTimeDataSuccess", onFailure: "getRealTimeDataFailure"
+         onSuccess: "getRealtimeDataSuccess", onFailure: "getRealtimeDataFailure"
         },
 
         {name: "scrim", kind: "Scrim", layoutKind: "VFlexLayout",
@@ -32,6 +32,7 @@ enyo.kind({
     create: function () {
         this.inherited(arguments);
         this.stations = [];
+        this.rbl_to_station = {};
     },
 
     rendered: function () {
@@ -40,18 +41,16 @@ enyo.kind({
     },
 
     getLocation: function() {
-        this.log();
         this.setScrim($L("Getting position"));
         this.$.location.call();
     },
 
     locationSuccess: function (sender, response) {
-        this.log();
         if (response.errorCode != 0) {
             this.error("Location failed: " + response.errorCode);
             return;
         }
-        this.log("Location found: " + response.latitude + "/" + response.longitude);
+        this.log("Location response: " + response.latitude + "/" + response.longitude);
         this.setScrim($L("Getting nearby stations"));
         this.$.getStations.call({lat: response.latitude, lon: response.longitude});
     },
@@ -64,26 +63,27 @@ enyo.kind({
             d.fromJson(h);
             enyo.map(h.rbls, function (r) {
                 rbls.push(r);
-            });
+                this.rbl_to_station[r] = d;
+            }, this);
             this.stations.push(d);
         }, this);
         this.$.list.refresh();
         this.setScrim(null);
-        this.$.getRealTimeData.call({rbl: rbls, sender: appKey});
+        this.$.getRealtimeData.call({rbl: rbls, sender: appKey});
     },
 
-    getRealTimeDataSuccess: function (sender, response) {
-        this.log(enyo.json.stringify(response));
+    getRealtimeDataSuccess: function (sender, response) {
+        this.log("RealtimeData response: " + enyo.json.stringify(response));
 
-        // enyo.map(response.data.monitors, function (m) {
-        //     var index = this.rbl_to_index[m.locationStop.properties.attributes.rbl];
-        //     this.$.list.prepareRow(index);
-        //     var lines = [];
-        //     enyo.map(m.lines, function (l) {
-        //         lines.push(l.name + "/" + l.towards+ ":" + l.departures.departure[0].departureTime.countdown);
-        //     }, this);
-        //     this.$.haltestelleItem.setLines(this.$.haltestelle.lines.concat(lines));
-        // }, this);
+        enyo.map(response.data.monitors, function (m) {
+            var d = this.rbl_to_station[m.locationStop.properties.attributes.rbl];
+            enyo.map(m.lines, function (l) {
+                var rd = new WiLi.RealtimeData();
+                rd.fromJson(l);
+                d.addRealtimeData(rd);
+            });
+        }, this);
+        this.$.list.refresh();
     },
 
 
@@ -103,7 +103,6 @@ enyo.kind({
     },
 
     toggleOpen: function (sender, event) {
-        this.log(event.rowIndex);
         this.$.list.prepareRow(event.rowIndex);
         this.$.stationItem.toggleOpen();
     },
@@ -118,7 +117,7 @@ enyo.kind({
         this.error("GetStations failed: "  + enyo.json.stringify(response));
     },
 
-    getRealTimeDataFailure: function (sender, response) {
-        this.error("GetRealTimeData failed: " + enyo.json.stringify(response));
+    getRealtimeDataFailure: function (sender, response) {
+        this.error("GetRealtimeData failed: " + enyo.json.stringify(response));
     }
 });
