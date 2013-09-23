@@ -1,3 +1,5 @@
+/*global enyo */
+
 enyo.depends(
     "source/WiLi.js",
     "source/StationItem.js",

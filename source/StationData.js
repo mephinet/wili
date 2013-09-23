@@ -1,3 +1,5 @@
+/*global enyo */
+
 enyo.kind({
     name: "WiLi.StationData",
     kind: "enyo.Component",
@@ -39,7 +41,7 @@ enyo.kind({
     getRealtimeData: function () {
         var data = [];
         enyo.map(this.lines, function (l) {
-            var d =this.realtimeDataForLine[l.name]
+            var d = this.realtimeDataForLine[l.name];
             if (d) {
                 data = data.concat(d);
             }

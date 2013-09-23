@@ -1,3 +1,5 @@
+/*global enyo */
+
 enyo.kind({
     name: "WiLi.StationItem",
     kind: "enyo.Item",
@@ -39,10 +41,9 @@ enyo.kind({
     },
 
     formatLines: function (d) {
-        var last_type = null;
-        var res = "";
+        var last_type = null, res = "";
         enyo.map(d.lines, function (l) {
-            if (l.type != last_type) {
+            if (l.type !== last_type) {
                 res += "[" + l.type + "] ";
                 last_type = l.type;
             }

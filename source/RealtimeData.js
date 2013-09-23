@@ -1,3 +1,5 @@
+/*global enyo */
+
 enyo.kind({
     name: "WiLi.RealtimeData",
     kind: "enyo.Component",
@@ -5,7 +7,7 @@ enyo.kind({
     published: {
         line: "",
         towards: "",
-        countdown: null,
+        countdown: null
     },
 
     fromJson: function (json) {

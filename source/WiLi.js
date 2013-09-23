@@ -1,3 +1,5 @@
+/*global enyo, appKey, $L, WiLi */
+
 enyo.kind({
     name: "WiLi.App",
     kind: "enyo.VFlexBox",
@@ -22,11 +24,10 @@ enyo.kind({
          onSuccess: "getRealtimeDataSuccess", onFailure: "getRealtimeDataFailure"
         },
 
-        {name: "scrim", kind: "Scrim", layoutKind: "VFlexLayout",
-         align: "center", pack: "center", components: [
-             {name: "spinner", kind: "SpinnerLarge", showing: 1},
-             {name: "scrimStatus"}
-        ]},
+        {name: "scrim", kind: "Scrim", layoutKind: "VFlexLayout", align: "center", pack: "center", components: [
+            {name: "spinner", kind: "SpinnerLarge", showing: 1},
+            {name: "scrimStatus"}
+        ]}
     ],
 
     create: function () {
@@ -40,13 +41,13 @@ enyo.kind({
         enyo.asyncMethod(this, "getLocation");
     },
 
-    getLocation: function() {
+    getLocation: function () {
         this.setScrim($L("Getting position"));
         this.$.location.call();
     },
 
     locationSuccess: function (sender, response) {
-        if (response.errorCode != 0) {
+        if (response.errorCode !== 0) {
             this.error("Location failed: " + response.errorCode);
             return;
         }
