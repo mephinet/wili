@@ -13,7 +13,7 @@ enyo.kind({
         {kind: "enyo.VFlexBox", components: [
             {kind: "enyo.HFlexBox", components: [
                 {name: "label", className: "station-name"},
-                {name: "lines", className: "station-lines"},
+                {name: "lines", className: "station-lines", allowHtml: true},
                 {kind: "enyo.Spacer"},
                 {name: "distance", className: "station-distance"}
             ]},
@@ -44,12 +44,13 @@ enyo.kind({
         var last_type = null, res = "";
         enyo.map(d.lines, function (l) {
             if (l.type !== last_type) {
-                res += "[" + l.type + "] ";
+                res += "<img src=\"source/" + l.type + ".png\" " +
+                    " alt=\"" + l.type + "\" height=10 /> ";
                 last_type = l.type;
             }
             res += l.name + ", ";
         });
-        return res;
+        return res.slice(0, -2);
     },
 
     formatRealtimeData: function (rds) {

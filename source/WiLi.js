@@ -62,7 +62,6 @@ enyo.kind({
     },
 
     getStationsSuccess: function (sender, response) {
-        this.log("GetStations response: " + enyo.json.stringify(response));
         var rbls = [];
         enyo.map(response.haltestellen, function (h) {
             var d = new WiLi.StationData();
@@ -79,8 +78,6 @@ enyo.kind({
     },
 
     getRealtimeDataSuccess: function (sender, response) {
-        this.log("RealtimeData response: " + enyo.json.stringify(response));
-
         enyo.map(response.data.monitors, function (m) {
             var d = this.rbl_to_station[m.locationStop.properties.attributes.rbl];
             enyo.map(m.lines, function (l) {

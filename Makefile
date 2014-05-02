@@ -18,17 +18,22 @@ device: ${IPK}
 	${PALM_BASE}/palm-launch -d usb ${ID}
 
 coords:
-	ssh -p 5522 root@localhost 'luna-send -n 1 luna://com.palm.pmradiosimulator/set_position {\"lat\":\"48.209380\",\"long\":\"16.351499\"}'
+	ssh -p 5522 root@localhost 'luna-send -n 1 luna://com.palm.pmradiosimulator/set_position {\"lat\":\"48.209\",\"long\":\"16.351\"}'
 
 tail:
 	${PALM_BASE}/palm-log ${ID} -f
 
-build: appinfo.json framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js)
-	mkdir -p build build/css build/source
+build: appinfo.json framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js) $(patsubst %.svg,%.png,$(wildcard source/*.svg)) $(wildcard source/*.png)
+	for d in $@ $@/css $@/source; do \
+	  [[ -d $$d ]] || mkdir $$d; \
+	done
 	for f in $^; do \
 	  cp -v $$f $@/$$f; \
 	done
 	touch $@
+
+%.png: %.svg
+	convert -geometry x20 $< $@
 
 ${IPK}: build
 	${PALM_BASE}/palm-package --use-v1-format $<
