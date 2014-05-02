@@ -24,6 +24,10 @@ enyo.kind({
          onSuccess: "getRealtimeDataSuccess", onFailure: "getRealtimeDataFailure"
         },
 
+        {name: "errorDialog", kind: "ModalDialog", caption: $L("Error"), components: [
+            {name: "errorMsg" }
+        ]},
+
         {name: "scrim", kind: "Scrim", layoutKind: "VFlexLayout", align: "center", pack: "center", components: [
             {name: "spinner", kind: "SpinnerLarge", showing: 1},
             {name: "scrimStatus"}
@@ -49,6 +53,7 @@ enyo.kind({
     locationSuccess: function (sender, response) {
         if (response.errorCode !== 0) {
             this.error("Location failed: " + response.errorCode);
+            this.displayError("Failed getting location!");
             return;
         }
         this.log("Location response: " + response.latitude + "/" + response.longitude);
@@ -108,17 +113,27 @@ enyo.kind({
         this.$.stationItem.toggleOpen();
     },
 
+    displayError: function (msg) {
+        this.setScrim(null);
+        this.$.errorDialog.validateComponents(); // create errorMsg child
+        this.$.errorMsg.setContent(msg);
+        this.$.errorDialog.openAtCenter();
+    },
+
     // error handling
 
     locationFailure: function (sender, response) {
         this.error("Location failed: " + enyo.json.stringify(response));
+        this.displayError("Failed getting location!");
     },
 
     getStationsFailure: function (sender, response) {
         this.error("GetStations failed: "  + enyo.json.stringify(response));
+        this.displayError("Failed getting stations!");
     },
 
     getRealtimeDataFailure: function (sender, response) {
         this.error("GetRealtimeData failed: " + enyo.json.stringify(response));
+        this.displayError("Failed getting realtime data!");
     }
 });
