@@ -6,7 +6,7 @@
     "vendorurl": "http://gortan.org/",
     "type": "web",
     "main": "index.html",
-    "icon": "icon.png",
+    "icon": "icon-64.png",
     "title": "WiLi for WebOS",
     "copyright": "Copyright 2013-2014, Philipp Gortan",
     "keywords": [

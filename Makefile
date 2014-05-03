@@ -23,7 +23,7 @@ coords:
 tail:
 	${PALM_BASE}/palm-log ${ID} -f
 
-build: appinfo.json framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js) $(patsubst %.svg,%.png,$(wildcard source/*.svg)) $(wildcard source/*.png)
+build: appinfo.json icon-64.png framework_config.json index.html depends.js $(wildcard css/*.css) $(wildcard source/*.js) $(patsubst %.svg,%.png,$(wildcard source/*.svg)) $(wildcard source/*.png)
 	for d in $@ $@/css $@/source; do \
 	  [[ -d $$d ]] || mkdir $$d; \
 	done
