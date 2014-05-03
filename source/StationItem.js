@@ -12,9 +12,10 @@ enyo.kind({
     components: [
         {kind: "enyo.VFlexBox", components: [
             {kind: "enyo.HFlexBox", components: [
-                {name: "label", className: "station-name"},
-                {name: "lines", className: "station-lines", allowHtml: true},
-                {kind: "enyo.Spacer"},
+                {flex: 1, components: [
+                    {nodeTag: "span", name: "label", className: "station-name", allowHtml: true},
+                    {nodeTag: "span", name: "lines", className: "station-lines", allowHtml: true}
+                ]},
                 {name: "distance", className: "station-distance"}
             ]},
             {kind: "enyo.BasicDrawer", open: false, components: [
@@ -26,7 +27,7 @@ enyo.kind({
 
     dataChanged: function () {
         var d = this.data;
-        this.$.label.setContent(d.getName());
+        this.$.label.setContent(d.getName().replace(/\//, '/&shy;'));
         this.$.lines.setContent(this.formatLines(d));
         this.$.distance.setContent(d.getDistance() + "m");
 
