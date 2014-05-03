@@ -4,7 +4,10 @@ enyo.kind({
     name: "WiLi.App",
     kind: "enyo.VFlexBox",
     components: [
-        {kind: "enyo.PageHeader", content: $L("WiLi for WebOS")},
+        {kind: "enyo.PageHeader", components: [
+            {content: $L("WiLi for WebOS"), flex: 1},
+            {kind: "Button", caption: $L("Refresh"), onclick: "getLocation"}
+        ]},
         {name: "list", kind: "enyo.VirtualList", onSetupRow: "setupRow", flex: 1, components: [
             {kind: "WiLi.StationItem", onclick: "toggleOpen"}
         ]},
@@ -53,7 +56,7 @@ enyo.kind({
     locationSuccess: function (sender, response) {
         if (response.errorCode !== 0) {
             this.error("Location failed: " + response.errorCode);
-            this.displayError("Failed getting location!");
+            this.displayError($L("Failed getting location!"));
             return;
         }
         this.log("Location response: " + response.latitude + "/" + response.longitude);
@@ -63,6 +66,8 @@ enyo.kind({
 
     getStationsSuccess: function (sender, response) {
         var rbls = [];
+        this.stations = [];
+        this.rbl_to_station = {};
         enyo.map(response.haltestellen, function (h) {
             var d = new WiLi.StationData();
             d.fromJson(h);
@@ -121,16 +126,16 @@ enyo.kind({
 
     locationFailure: function (sender, response) {
         this.error("Location failed: " + enyo.json.stringify(response));
-        this.displayError("Failed getting location!");
+        this.displayError($L("Failed getting location!"));
     },
 
     getStationsFailure: function (sender, response) {
         this.error("GetStations failed: "  + enyo.json.stringify(response));
-        this.displayError("Failed getting stations!");
+        this.displayError($L("Failed getting stations!"));
     },
 
     getRealtimeDataFailure: function (sender, response) {
         this.error("GetRealtimeData failed: " + enyo.json.stringify(response));
-        this.displayError("Failed getting realtime data!");
+        this.displayError($L("Failed getting realtime data!"));
     }
 });
