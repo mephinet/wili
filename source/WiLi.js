@@ -34,7 +34,13 @@ enyo.kind({
         {name: "scrim", kind: "Scrim", layoutKind: "VFlexLayout", align: "center", pack: "center", components: [
             {name: "spinner", kind: "SpinnerLarge", showing: 1},
             {name: "scrimStatus"}
-        ]}
+        ]},
+
+        {kind: enyo.AppMenu, components: [
+            {caption: $L("About..."), onclick: "showAbout"}
+        ]},
+
+        {kind: "WiLi.About"}
     ],
 
     create: function () {
@@ -120,6 +126,10 @@ enyo.kind({
         this.$.errorDialog.validateComponents(); // create errorMsg child
         this.$.errorMsg.setContent(msg);
         this.$.errorDialog.openAtCenter();
+    },
+
+    showAbout: function () {
+        this.$.about.openAtCenter();
     },
 
     // error handling

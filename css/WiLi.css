@@ -1,3 +1,7 @@
-/* .haltestelle .distance { position: absolute; top: 10px; right: 10px;} */
-
 .wili-station .station-lines { margin-left: 1em; font-size: .75rem; }
+
+.wili-about {width: 80%; height: 70%; font-size: small; }
+.wili-about .icon {margin-right: 20px}
+.wili-about .title {font-weight: bold}
+.wili-about .info {margin: 15px}
+.wili-about .licenseInfo {margin: 15px; text-align: justify}

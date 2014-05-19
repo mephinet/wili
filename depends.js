@@ -3,6 +3,7 @@ enyo.depends(
     "source/StationItem.js",
     "source/StationData.js",
     "source/RealtimeData.js",
+    "source/About.js",
     "source/appKey.js",
     "css/WiLi.css"
 );
